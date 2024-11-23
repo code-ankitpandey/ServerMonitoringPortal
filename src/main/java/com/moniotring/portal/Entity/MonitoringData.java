@@ -3,8 +3,11 @@ package com.moniotring.portal.Entity;
 
 import com.moniotring.portal.DTO.MonitoringPK;
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Data
 @Entity
 public class MonitoringData {
 

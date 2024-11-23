@@ -18,4 +18,5 @@ public class MonitoringController {
     public List<MonitoringDataDTO>getMonitoring(@RequestParam String serverIP){
         return sshService.getMonitoring(serverIP);
     }
+
 }

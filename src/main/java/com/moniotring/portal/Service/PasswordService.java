@@ -20,7 +20,7 @@ public class PasswordService {
             return Base64.getEncoder().encodeToString(encryptedPassword);
         } catch (Exception e) {
             // Log the exception (optional)
-            e.printStackTrace();
+                e.printStackTrace();
             return null; // Return null or a default value to handle errors gracefully
         }
     }

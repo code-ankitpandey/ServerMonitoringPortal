@@ -4,18 +4,20 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.moniotring.portal.DTO.MonitoringDataDTO;
+import com.moniotring.portal.DTO.MonitoringPK;
+import com.moniotring.portal.Entity.MonitoringData;
 import com.moniotring.portal.Entity.Server;
+import com.moniotring.portal.Repository.MonitoringRepository;
 import com.moniotring.portal.Repository.ServerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class SSHService {
@@ -24,6 +26,8 @@ public class SSHService {
     private ServerRepository serverRepository;
     @Autowired
     private PasswordService passwordService;
+    @Autowired
+    private MonitoringRepository monitoringRepository;
     public static String executeCommand(String ip, String userName, String password, int port, String command) {
         JSch jsch = new JSch();
         Session session = null;
@@ -98,11 +102,34 @@ public class SSHService {
         return monitoringList;
     }
     public List<MonitoringDataDTO>getMonitoring(String IP){
-
         List<MonitoringDataDTO>list=new LinkedList<>();
         Optional<Server> optionalServer= serverRepository.findById(IP);
         if(optionalServer.isEmpty())return list;
         Server server=optionalServer.get();
+        updateMonitoringTable();
         return parseDiskUsage(executeCommand(server.getIP(),server.getUserName(), passwordService.decryptPassword(server.getPassword()),server.getPort(),"df -h"));
     }
+    @Scheduled(cron = "0 44 1 * * ?")  // cron expression for 9 AM every day
+    public void updateMonitoringTable() {
+       List<Server>serverList= serverRepository.findAll();
+       for(Server server:serverList){
+           if(!server.isActive())continue;
+           List<MonitoringDataDTO>monitoringDataDTOList= parseDiskUsage(executeCommand(server.getIP(),server.getUserName(), passwordService.decryptPassword(server.getPassword()),server.getPort(),"df -h"));
+           MonitoringPK monitoringPK= new MonitoringPK();
+
+           for (MonitoringDataDTO monitoringDataDTO:monitoringDataDTOList){
+               monitoringPK.setDateRecorded(LocalDate.now().toString());
+               monitoringPK.setServerIP(server.getIP());
+               monitoringPK.setMountedOn(monitoringDataDTO.getMountPoint());
+               MonitoringData monitoringData= new MonitoringData();
+               monitoringData.setId(monitoringPK);
+               monitoringData.setSize(monitoringDataDTO.getTotalSize());
+               monitoringData.setUsed(monitoringDataDTO.getUsedSize());
+               monitoringData.setUsedPercentage(monitoringDataDTO.getUsedPercentage());
+               monitoringData.setAvailable(monitoringDataDTO.getAvailableSize());
+               monitoringRepository.save(monitoringData);
+           }
+       }
+    }
+
 }
