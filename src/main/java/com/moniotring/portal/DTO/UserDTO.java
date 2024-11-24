@@ -8,12 +8,12 @@ import lombok.Data;
 @Data
 public class UserDTO {
     @Id
-    String userName;
-    String firstName;
-    String lastName;
-    String email;
-    String password;
-    boolean isActive;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+        String userName;
+        String firstName;
+        String lastName;
+        String email;
+        String password;
+        boolean isActive;
+        @Enumerated(EnumType.STRING)
+        private Role role;
 }

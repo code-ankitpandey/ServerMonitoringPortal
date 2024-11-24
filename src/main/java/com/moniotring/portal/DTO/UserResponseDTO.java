@@ -15,5 +15,9 @@ public class UserResponseDTO {
     boolean isActive;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public UserResponseDTO orElseThrow() {
+        return new UserResponseDTO();
+    }
 }
 

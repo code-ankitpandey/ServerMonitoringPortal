@@ -109,6 +109,10 @@ public class SSHService {
         updateMonitoringTable();
         return parseDiskUsage(executeCommand(server.getIP(),server.getUserName(), passwordService.decryptPassword(server.getPassword()),server.getPort(),"df -h"));
     }
+    public List<MonitoringData> getMonitoringData(String serverIP, String dateRecorded) {
+        return monitoringRepository.findByIdServerIPAndIdDateRecorded(serverIP, dateRecorded);
+    }
+
     @Scheduled(cron = "0 44 1 * * ?")  // cron expression for 9 AM every day
     public void updateMonitoringTable() {
        List<Server>serverList= serverRepository.findAll();

@@ -9,4 +9,5 @@ import java.util.List;
 
 @Repository
 public interface MonitoringRepository extends JpaRepository<MonitoringData , MonitoringPK> {
+    List<MonitoringData> findByIdServerIPAndIdDateRecorded(String serverIP, String dateRecorded);
 }

@@ -47,6 +47,7 @@ public class ServerService {
         serverResponseDTO.setConsumptionAlertPercentage(optionalServer.get().getConsumptionAlertPercentage());
         serverResponseDTO.setGrowthAlertPercentage(optionalServer.get().getGrowthAlertPercentage());
         serverResponseDTO.setUserName(optionalServer.get().getUserName());
+        serverResponseDTO.setIP(optionalServer.get().getIP());
         return serverResponseDTO;
     }
 
