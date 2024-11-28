@@ -5,6 +5,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.moniotring.portal.DTO.MonitoringDataDTO;
 import com.moniotring.portal.DTO.MonitoringPK;
+import com.moniotring.portal.DTO.MonitoringTestDTO;
 import com.moniotring.portal.Entity.MonitoringData;
 import com.moniotring.portal.Entity.Server;
 import com.moniotring.portal.Repository.MonitoringRepository;
@@ -136,4 +137,21 @@ public class SSHService {
        }
     }
 
+    public String updateMonitoringTable1(MonitoringTestDTO monitoringDataDTO) {
+        System.out.println(monitoringDataDTO);
+        MonitoringPK monitoringPK= new MonitoringPK();
+        monitoringPK.setDateRecorded(monitoringDataDTO.getDateRecorded());
+        monitoringPK.setServerIP(monitoringDataDTO.getServerIP());
+        monitoringPK.setMountedOn(monitoringDataDTO.getMountPoint());
+
+        MonitoringData monitoringData= new MonitoringData();
+
+        monitoringData.setId(monitoringPK);
+        monitoringData.setSize(monitoringDataDTO.getTotalSize());
+        monitoringData.setUsed(monitoringDataDTO.getUsedSize());
+        monitoringData.setUsedPercentage(monitoringDataDTO.getUsedPercentage());
+        monitoringData.setAvailable(monitoringDataDTO.getAvailableSize());
+        monitoringRepository.save(monitoringData);
+        return monitoringDataDTO+" added succesfully";
+    }
 }

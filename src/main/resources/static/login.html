@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.svg"    >
+    <title>Login - Monitoring Portal</title>
+</head>
+<style>
+    /* Reset default styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+ 
+    body,
+    html {
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(#2c3e50, #34495e);
+ 
+    }
+ 
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+ 
+    .left-side {
+        flex: 1;
+        /* background-color: #454846; Green background */
+ 
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+ 
+    .left-side .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+ 
+    .left-side .logo img {
+        max-width: 60%;
+        /* Adjust logo size */
+        margin-bottom: 10px;
+        /* Reduced margin between logo and text */
+    }
+ 
+    .home_page_info {
+        font-size: 3em;
+        font-weight: bold;
+        margin: 0;
+    }
+ 
+    .right-side {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+ 
+    .right-side form {
+        background-color: white;
+        padding: 30px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        width: 70%;
+    }
+ 
+    .right-side form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+ 
+    .right-side form input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+ 
+    .right-side form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+ 
+    .right-side form button:hover {
+        background-color: #45a049;
+    }
+ 
+    /* Styling the toggle switch */
+    .admin-toggle {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+ 
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 34px;
+        height: 20px;
+        margin-left: 10px;
+    }
+ 
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+ 
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 50px;
+    }
+ 
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 12px;
+        width: 12px;
+        border-radius: 50px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+    }
+ 
+    input:checked+.slider {
+        background-color: #4CAF50;
+    }
+ 
+    input:checked+.slider:before {
+        transform: translateX(14px);
+    }
+ 
+/* //////////////////////////////LOADER//////////////////*/
+ 
+    #main-content {
+        /* Ensures main content is separate from loader */
+        position: relative;
+        z-index: 0;
+    }
+ 
+    .blur-effect {
+        filter: blur(2px);
+        pointer-events: none;
+    }
+ 
+ 
+    .loader {
+ 
+        z-index: 1000;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10%;
+        height: 50px;
+        text-align: center;
+        font-size: 10px;
+        display: none;
+ 
+ 
+ 
+        div {
+            height: 100%;
+            width: 8px;
+            display: inline-block;
+            /* float: left; */
+            margin-left: 2px;
+            -webkit-animation: delay 0.8s infinite ease-in-out;
+            animation: delay 0.8s infinite ease-in-out;
+        }
+ 
+        .bar1 {
+            background-color: #f5f4f7;
+        }
+ 
+        .bar2 {
+            background-color: #09b7bf;
+            -webkit-animation-delay: -0.7s;
+            animation-delay: -0.7s;
+        }
+ 
+        .bar3 {
+            background-color: #90d36b;
+            -webkit-animation-delay: -0.6s;
+            animation-delay: -0.6s;
+        }
+ 
+        .bar4 {
+            background-color: #f2d40d;
+            -webkit-animation-delay: -0.5s;
+            animation-delay: -0.5s;
+        }
+ 
+        .bar5 {
+            background-color: #fcb12b;
+            -webkit-animation-delay: -0.4s;
+            animation-delay: -0.4s;
+        }
+ 
+        .bar6 {
+            background-color: #ed1b72;
+            -webkit-animation-delay: -0.3s;
+            animation-delay: -0.3s;
+        }
+    }
+ 
+ 
+    @-webkit-keyframes delay {
+ 
+        0%,
+        40%,
+        100% {
+            -webkit-transform: scaleY(0.05)
+        }
+ 
+        20% {
+            -webkit-transform: scaleY(1.0)
+        }
+    }
+ 
+    @keyframes delay {
+ 
+        0%,
+        40%,
+        100% {
+            transform: scaleY(0.05);
+            -webkit-transform: scaleY(0.05);
+        }
+ 
+        20% {
+            transform: scaleY(1.0);
+            -webkit-transform: scaleY(1.0);
+        }
+    }
+    /*///////////////////////LOADER_END//////////////*/
+</style>
+ 
+<body>
+    <div class="loader" id="loader" style="display: none;">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+        <div class="bar4"></div>
+        <div class="bar5"></div>
+        <div class="bar6"></div>
+    </div>
+ 
+ 
+    <div class="container">
+        <!-- Left side -->
+        <div class="left-side">
+            <div class="logo">
+                <img src="logo.svg" alt="Logo"> <!-- Use your logo here -->
+                <h1 class="home_page_info">Welcome to Monitoring Portal</h1>
+            </div>
+        </div>
+ 
+        <!-- Right side (Login form) -->
+        <div class="right-side">
+            <form id="login-form">
+                <h1 style="margin-bottom: 14%;">Please enter the login credentials</h1>
+ 
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+ 
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+ 
+                <!-- Admin Login Toggle -->
+                <div class="admin-toggle">
+                    <label for="admin-login">Admin Login:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="admin-login" name="admin-login">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+ 
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function hideLoader() {
+            const loader = document.getElementById("loader");
+            loader.style.display = 'none'; // Hide the loader
+        }
+ 
+        document.getElementById("login-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+ 
+            // Apply blur effect to the container
+            document.querySelector('.container').classList.add("blur-effect");
+ 
+            // Show the loader
+            const loader = document.getElementById("loader");
+            loader.style.display = 'block';
+ 
+ 
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+ 
+            // Get the Admin Login toggle state (checked or not)
+            const isAdminLogin = document.getElementById("admin-login").checked;
+ 
+            // Prepare the data to be sent in the request
+            const data = {
+                username: username,
+                password: password
+            };
+            // Send a POST request to the /auth/login API
+            fetch("http://localhost:8000/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json()) // Parse the JSON response
+                .then(data => {
+                    if (data.token) {
+            // Check if the token contains error messages
+            if (data.token.includes("does not exist")) {
+                alert("Invalid username or password");
+            } else if (data.token.includes("Invalid credentials")) {
+                alert("Invalid username or password");
+            } else {
+                // Successful login
+                localStorage.setItem("authToken", data.token);
+                alert("Login successful!");
+
+                // Redirect based on the Admin Login toggle
+                if (isAdminLogin) {
+                    // Redirect to the admin dashboard
+                    window.location.href = "/adminHomepage.html"; // Change to actual admin URL
+                } else {
+                    // Redirect to the user dashboard
+                    window.location.href = "/userHomepage.html"; // Change to actual user URL
+                }
+            }
+        }
+                })
+                .catch(error => {
+                    console.error("Error during login:", error);
+                    alert("An error occurred. Please try again.\n"+error);
+                }).finally(
+                    final => {
+                        hideLoader();
+                        document.querySelector('.container').classList.remove("blur-effect");
+                    }
+                )
+        });
+ 
+    </script>
+</body>
+ 
+</html>
+
+<script>
+
+fetch("http://localhost:8000/auth/login", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+})
+    .then(response => response.json()) // Parse the JSON response
+    .then(data => {
+        if (data.token) {
+            // Check if the token contains error messages
+            if (data.token.includes("does not exist")) {
+                alert(data.token); // Alert: "<username> does not exist in the system"
+            } else if (data.token.includes("Invalid credentials")) {
+                alert("Invalid username or password");
+            }else if (data.token.includes("administrator")) {
+                alert(data.token);
+            }
+            else {
+                // Successful login
+                localStorage.setItem("authToken", data.token);
+                alert("Login successful!");
+
+                // Redirect based on the Admin Login toggle
+                if (isAdminLogin) {
+                    // Redirect to the admin dashboard
+                    window.location.href = "/adminHomepage.html"; // Change to actual admin URL
+                } else {
+                    // Redirect to the user dashboard
+                    window.location.href = "/userHomepage.html"; // Change to actual user URL
+                }
+            }
+        } else {
+            // Handle cases where token is missing in response
+            alert("An unexpected error occurred. Please try again.");
+        }
+    })
+    .catch(error => {
+        console.error("Error during login:", error);
+        alert("An error occurred. Please try again.\n" + error);
+    })
+    .finally(() => {
+        hideLoader();
+        document.querySelector('.container').classList.remove("blur-effect");
+    });
+
+
+</script>

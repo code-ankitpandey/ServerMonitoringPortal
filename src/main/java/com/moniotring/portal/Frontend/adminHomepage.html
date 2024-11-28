@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Admin HomePage</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="admin_style.css">
+</head>
+
+<body>
+
+<div class="loader" id="loader" style="display: none;">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+    <div class="bar4"></div>
+    <div class="bar5"></div>
+    <div class="bar6"></div>
+</div>
+
+<div class="mainBody">
+
+    <header>
+        <div class="logo">
+            <img src="logo.svg" alt="Logo"> <!-- Your logo -->
+        </div>
+        <div class="title">
+            <h1>Admin Portal</h1>
+        </div>
+    </header>
+
+    <!-- Main Page Container -->
+    <div class="page-container">
+        <!-- Management Buttons -->
+        <div class="management-buttons">
+            <div class="option" id="userManagementButton" onclick="openModal('userModal')" >
+            <i class=" fas fa-users"></i> User Management
+        </div>
+        <div class="option" id="serverManagementButton" onclick="openModal('serverModal')">
+            <i class="fas fa-server"></i> Server Management
+        </div>
+    </div>
+
+
+    <!-- User Management Section -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+
+            <span id="closeBtnUser" class="close-btn" onclick="closeModal()">&times;</span>
+
+            <h2>User Management</h2>
+
+            <!-- Modal options -->
+            <div class="modal-options">
+                <div class="option" onclick="openModalAndGenerate('displayUser')">Display User Details</div>
+                <div class="option" onclick="openModalAndGenerate('createUser')">Add User</div>
+                <div class="option" onclick="openModalAndGenerate('modifyUser')">Modify User Details</div>
+                <div class="option" onclick="openModalAndGenerate('changeUserPassword')">Change Password</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="serverModal" class="modal">
+        <div class="modal-content">
+
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+
+            <h2>Server Management</h2>
+
+            <!-- Modal options -->
+            <div class="modal-options">
+                <div class="option" onclick="openModalAndGenerate('displayServer')">Display Server Details</div>
+                <div class="option" onclick="openModalAndGenerate('createServer')">Add Server</div>
+                <div class="option" onclick="openModalAndGenerate('modifyServer')">Modify Server Details</div>
+                <div class="option" onclick="openModalAndGenerate('changeServerPassword')">Change Password</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="common_modal">
+
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <form id="modalForm">
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="display_modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <form id="modalResponseForm">
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</div>
+</body>
+<script src="admin_script.js"></script>
+
+</html>

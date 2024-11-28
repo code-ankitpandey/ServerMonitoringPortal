@@ -76,6 +76,7 @@ public class    UserService {
         if (optionalUser.isEmpty())return userName+" does not exists in the system.";
         User user = optionalUser.get();
         user.setPassword(passwordService.encryptPassword(newPassword));
+        userRepository.save(user);
         return "Password reset successful";
     }
 }

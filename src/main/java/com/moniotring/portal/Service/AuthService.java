@@ -21,17 +21,24 @@ public class AuthService {
 
     public String login(String username, String password) {
         // Fetch the user by username
-       Optional<User>optionalUser = userRepository.findById(username);
-       if (optionalUser.isEmpty()){
-           return username+" does not exists in the system";
-       }
-       User user = optionalUser.get();
+        Optional<User> optionalUser = userRepository.findById(username);
+        if (optionalUser.isEmpty()) {
+            return username + " does not exist in the system";
+        }
+
+        User user = optionalUser.get();
+
         // Check if passwords match
         if (!passwordService.matchesPassword(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            return "Invalid credentials";
+        }
+
+        if(!user.isActive()){
+            return username+" is inactive, Please connect with administrator";
         }
 
         // Generate JWT token
         return jwtUtil.generateToken(user.getUserName(), user.getRole().name());
     }
+
 }
